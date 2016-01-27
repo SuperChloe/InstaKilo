@@ -31,18 +31,21 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView registerClass:[CollectionCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     self.imagesArray = [[NSMutableArray alloc] init];
-    Photo *photo1 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1606.jpg"] andCategory:@"Back"];
-    Photo *photo2 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1643.jpg"] andCategory:@"Sitting"];
-    Photo *photo3 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1841.jpg"] andCategory:@"Sitting"];
-    Photo *photo4 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1889.jpg"] andCategory:@"Back"];
-    Photo *photo5 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1892.jpg"] andCategory:@"Back"];
-    Photo *photo6 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1901.jpg"] andCategory:@"Sitting"];
-    Photo *photo7 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1908.jpg"] andCategory:@"Sitting"];
-    Photo *photo8 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1931.jpg"] andCategory:@"Sitting"];
-    Photo *photo9 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1932.jpg"] andCategory:@"Back"];
-    Photo *photo10 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_2080.jpg"] andCategory:@"Back"];
+    Photo *photo1 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1606.jpg"] category:@"On Back" andLocation:@"21 Widmer"];
+    Photo *photo2 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1643.jpg"] category:@"Sitting" andLocation:@"21 Widmer"];
+    Photo *photo3 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1841.jpg"] category:@"Sitting" andLocation:@"399 Adelaide"];
+    Photo *photo4 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1889.jpg"] category:@"On Back" andLocation:@"399 Adelaide"];
+    Photo *photo5 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1892.jpg"] category:@"On Back" andLocation:@"399 Adelaide"];
+    Photo *photo6 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1901.jpg"] category:@"Sitting" andLocation:@"399 Adelaide"];
+    Photo *photo7 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1908.jpg"] category:@"Sitting" andLocation:@"399 Adelaide"];
+    Photo *photo8 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1931.jpg"] category:@"Sitting" andLocation:@"399 Adelaide"];
+    Photo *photo9 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1932.jpg"] category:@"On Back" andLocation:@"399 Adelaide"];
+    Photo *photo10 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_2080.jpg"] category:@"On Back" andLocation:@"399 Adelaide"];
     
     [self.imagesArray addObjectsFromArray:@[photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10]];
+    
+    [self.collectionView setDataSource:self];
+    self.flowLayout.headerReferenceSize =  CGSizeMake(CGRectGetWidth(self.collectionView.frame), 50);
     
 }
 
@@ -65,16 +68,22 @@ static NSString * const reuseIdentifier = @"Cell";
 - (CollectionCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     CollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    imageView.clipsToBounds = YES;
-    [cell addSubview:imageView];
+//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+//    imageView.contentMode = UIViewContentModeScaleAspectFill;
+//    imageView.clipsToBounds = YES;
+//    [cell addSubview:imageView];
+
     Photo *photo = self.imagesArray[indexPath.row];
-    imageView.image = photo.image;
+    cell.imageView.image = photo.image;
     
     cell.backgroundColor = [UIColor blackColor];
 
     return cell;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    
+    return [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Header" forIndexPath:indexPath];
 }
 
 #pragma mark <UICollectionViewDelegate>

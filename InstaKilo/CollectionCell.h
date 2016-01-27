@@ -11,4 +11,6 @@
 
 @interface CollectionCell : UICollectionViewCell
 
+@property (strong, nonatomic) UIImageView *imageView;
+
 @end

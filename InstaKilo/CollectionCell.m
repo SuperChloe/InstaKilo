@@ -10,6 +10,18 @@
 
 @implementation CollectionCell
 
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.imageView = [[UIImageView alloc] init];
+        [self.contentView addSubview:self.imageView];
+    }
+    return self;
+}
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.imageView.frame = self.contentView.bounds;
+}
 
 @end

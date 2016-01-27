@@ -13,7 +13,8 @@
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSString *category;
+@property (nonatomic, strong) NSString *location;
 
-- (instancetype)initWithImage:(UIImage *)image andCategory:(NSString *)category;
+- (instancetype)initWithImage:(UIImage *)image category:(NSString *)category andLocation:(NSString *)location;
 
 @end
