@@ -28,7 +28,7 @@ static NSString * const reuseIdentifier = @"Cell";
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Register cell classes
-    [self.collectionView registerClass:[CollectionCell class] forCellWithReuseIdentifier:@"Cell"];
+    [self.collectionView registerClass:[CollectionCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     self.imagesArray = [[NSMutableArray alloc] init];
     Photo *photo1 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1606.jpg"] andCategory:@"Back"];
@@ -44,28 +44,12 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [self.imagesArray addObjectsFromArray:@[photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10]];
     
-//    [self.flowLayout setItemSize:CGSizeMake(200, 200)];
-//    [self.flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-//    
-//    [self.collectionView setCollectionViewLayout:self.flowLayout];
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -81,10 +65,14 @@ static NSString * const reuseIdentifier = @"Cell";
 - (CollectionCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     CollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 150, 150)];
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+   // imageView.clipsToBounds = YES;
+    [cell addSubview:imageView];
     Photo *photo = self.imagesArray[indexPath.row];
+    imageView.image = photo.image;
     
     cell.backgroundColor = [UIColor blackColor];
-    cell.imageView.image = photo.image;
 
     return cell;
 }
