@@ -11,9 +11,9 @@
 
 @interface Photo : NSObject
 
-@property (nonatomic, strong) UIImage *image;
-@property (nonatomic, strong) NSString *category;
-@property (nonatomic, strong) NSString *location;
+@property (strong, nonatomic) UIImage *image;
+@property (strong, nonatomic) NSString *category;
+@property (strong, nonatomic) NSString *location;
 
 - (instancetype)initWithImage:(UIImage *)image category:(NSString *)category andLocation:(NSString *)location;
 

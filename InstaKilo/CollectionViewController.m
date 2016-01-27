@@ -12,8 +12,9 @@
 
 @interface CollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property (nonatomic, strong) NSMutableArray *imagesArray;
+@property (strong, nonatomic) NSMutableArray *imagesArray;
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *flowLayout;
+@property (strong, nonatomic) NSMutableDictionary *imagesDictionary;
 
 @end
 
@@ -42,7 +43,11 @@ static NSString * const reuseIdentifier = @"Cell";
     Photo *photo9 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1932.jpg"] category:@"On Back" andLocation:@"399 Adelaide"];
     Photo *photo10 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_2080.jpg"] category:@"On Back" andLocation:@"399 Adelaide"];
     
-    [self.imagesArray addObjectsFromArray:@[photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10]];
+    //[self.imagesArray addObjectsFromArray:@[photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10]];
+    
+    self.imagesDictionary = [[NSMutableDictionary alloc] init];
+    [self.imagesDictionary addEntriesFromDictionary: @{@"Photo" : @[photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10]}];
+    
     
     [self.collectionView setDataSource:self];
     self.flowLayout.headerReferenceSize =  CGSizeMake(CGRectGetWidth(self.collectionView.frame), 50);
@@ -57,23 +62,18 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    return self.imagesDictionary.allKeys.count;
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.imagesArray.count;
+    return [[self.imagesDictionary objectForKey:@"Photo" ] count];
 }
 
 - (CollectionCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     CollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-//    imageView.contentMode = UIViewContentModeScaleAspectFill;
-//    imageView.clipsToBounds = YES;
-//    [cell addSubview:imageView];
-
-    Photo *photo = self.imagesArray[indexPath.row];
+    Photo *photo = self.imagesDictionary ;
     cell.imageView.image = photo.image;
     
     cell.backgroundColor = [UIColor blackColor];
