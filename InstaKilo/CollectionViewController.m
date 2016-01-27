@@ -65,9 +65,9 @@ static NSString * const reuseIdentifier = @"Cell";
 - (CollectionCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     CollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 150, 150)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
-   // imageView.clipsToBounds = YES;
+    imageView.clipsToBounds = YES;
     [cell addSubview:imageView];
     Photo *photo = self.imagesArray[indexPath.row];
     imageView.image = photo.image;
