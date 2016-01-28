@@ -14,7 +14,8 @@
 
 @property (strong, nonatomic) NSMutableArray *imagesArray;
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *flowLayout;
-@property (strong, nonatomic) NSMutableDictionary *imagesDictionary;
+@property (strong, nonatomic) NSMutableDictionary *dictionary;
+
 
 @end
 
@@ -32,6 +33,8 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView registerClass:[CollectionCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     self.imagesArray = [[NSMutableArray alloc] init];
+    self.dictionary = [[NSMutableDictionary alloc] init];
+    
     Photo *photo1 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1606.jpg"] category:@"On Back" andLocation:@"21 Widmer"];
     Photo *photo2 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1643.jpg"] category:@"Sitting" andLocation:@"21 Widmer"];
     Photo *photo3 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1841.jpg"] category:@"Sitting" andLocation:@"399 Adelaide"];
@@ -43,11 +46,29 @@ static NSString * const reuseIdentifier = @"Cell";
     Photo *photo9 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1932.jpg"] category:@"On Back" andLocation:@"399 Adelaide"];
     Photo *photo10 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_2080.jpg"] category:@"On Back" andLocation:@"399 Adelaide"];
     
-    //[self.imagesArray addObjectsFromArray:@[photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10]];
+    [self.imagesArray addObjectsFromArray:@[photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10]];
     
-    self.imagesDictionary = [[NSMutableDictionary alloc] init];
-    [self.imagesDictionary addEntriesFromDictionary: @{@"Photo" : @[photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10]}];
+    NSArray *locations = [self.imagesArray valueForKeyPath:@"@distinctUnionOfObjects.location"];
+    NSMutableArray *locationArray = [[NSMutableArray alloc] init];
+    for (int i = 0; i <= locations.count - 1; i++) {
+        for (Photo *photo in self.imagesArray) {
+            if ([photo.location isEqualToString:locations[i]]) {
+                [locationArray addObject:photo];
+            }
+        }
+        NSLog(@"%@", locationArray);
+    }
     
+    NSArray *categories = [self.imagesArray valueForKeyPath:@"@distinctUnionOfObjects.category"];
+    NSMutableArray *categoryArray = [[NSMutableArray alloc] init];
+    for (int i = 0; i <= categories.count - 1; i++) {
+        for (Photo *photo in self.imagesArray) {
+            if ([photo.category isEqualToString:categories[i]]) {
+                [categoryArray addObject:photo];
+            }
+        }
+        NSLog(@"%@", categoryArray);
+    }
     
     [self.collectionView setDataSource:self];
     self.flowLayout.headerReferenceSize =  CGSizeMake(CGRectGetWidth(self.collectionView.frame), 50);
@@ -62,18 +83,18 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return self.imagesDictionary.allKeys.count;
+    return 1;
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [[self.imagesDictionary objectForKey:@"Photo" ] count];
+    return self.imagesArray.count;
 }
 
 - (CollectionCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     CollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    Photo *photo = self.imagesDictionary ;
+    Photo *photo = self.imagesArray[indexPath.row];
     cell.imageView.image = photo.image;
     
     cell.backgroundColor = [UIColor blackColor];
