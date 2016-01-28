@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 @property (strong, nonatomic) NSMutableDictionary *categoryDictionary;
 @property (strong, nonatomic) NSMutableDictionary *locationDictionary;
+@property (strong, nonatomic) NSMutableDictionary *imagesDictionary;
+@property (strong, nonatomic) NSMutableDictionary *allImagesDictionary;
 
 @end
 
@@ -42,6 +44,8 @@ static NSString * const reuseIdentifier = @"Cell";
     self.categoryArray = [[NSMutableArray alloc] init];
     self.categoryDictionary = [[NSMutableDictionary alloc] init];
     self.locationDictionary = [[NSMutableDictionary alloc] init];
+    self.imagesDictionary = [[NSMutableDictionary alloc] init];
+    self.allImagesDictionary = [[NSMutableDictionary alloc] init];
     
     Photo *photo1 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1606.jpg"] category:@"On Back" andLocation:@"21 Widmer"];
     Photo *photo2 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1643.jpg"] category:@"Sitting" andLocation:@"21 Widmer"];
@@ -55,32 +59,40 @@ static NSString * const reuseIdentifier = @"Cell";
     Photo *photo10 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_2080.jpg"] category:@"On Back" andLocation:@"399 Adelaide"];
     
     [self.imagesArray addObjectsFromArray:@[photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10]];
+ 
+// All images
+    NSMutableArray *images = [[NSMutableArray alloc] init];
+        for (Photo *photo in self.imagesArray) {
+            [images addObject:photo.image];
+        }
+    [self.allImagesDictionary setObject:images forKey:@"All Photos"];
     
-//    NSArray *locations = [self.imagesArray valueForKeyPath:@"@distinctUnionOfObjects.location"];
-//    
-//    for (int i = 0; i <= locations.count - 1; i++) {
-//        NSMutableArray *oneLocation = [[NSMutableArray alloc] init];
-//        for (Photo *photo in self.imagesArray) {
-//            if ([photo.location isEqualToString:locations[i]]) {
-//                [oneLocation addObject:photo];
-//            }
-//        }
-//        [self.locationArray addObject:oneLocation];
-//    }
+// Categories
+    NSArray *categories = [self.imagesArray valueForKeyPath:@"@distinctUnionOfObjects.category"];
+    for (int i = 0; i <= categories.count - 1; i++) {
+        NSMutableArray *oneCategory = [[NSMutableArray alloc] init];
+        for (Photo *photo in self.imagesArray) {
+            if ([photo.category isEqualToString:categories[i]]) {
+                [oneCategory addObject:photo.image];
+            }
+        }
+        [self.categoryDictionary setObject:oneCategory forKey:categories[i]];
+    }
+
+// Locations
+    NSArray *locations = [self.imagesArray valueForKeyPath:@"@distinctUnionOfObjects.location"];
+    for (int i = 0; i <= locations.count - 1; i++) {
+        NSMutableArray *oneLocation = [[NSMutableArray alloc] init];
+        for (Photo *photo in self.imagesArray) {
+            if ([photo.location isEqualToString:locations[i]]) {
+                [oneLocation addObject:photo.image];
+            }
+        }
+        [self.locationDictionary setObject:oneLocation forKey:locations[i]];
+    }
     
-//    NSArray *categories = [self.imagesArray valueForKeyPath:@"@distinctUnionOfObjects.category"];
-//    for (int i = 0; i <= categories.count - 1; i++) {
-//        NSMutableArray *oneCategory = [[NSMutableArray alloc] init];
-//        for (Photo *photo in self.imagesArray) {
-//            if ([photo.category isEqualToString:categories[i]]) {
-//                [oneCategory addObject:photo];
-//            }
-//        }
-//        [self.categoryArray addObject:oneCategory];
-//    }
-    
-    NSLog(@"Locations: %@", self.locationArray);
-    NSLog(@"Categorys: %@", self.categoryArray);
+// To start
+    self.imagesDictionary = self.allImagesDictionary;
     
     [self.collectionView setDataSource:self];
     self.flowLayout.headerReferenceSize =  CGSizeMake(CGRectGetWidth(self.collectionView.frame), 30);
@@ -95,35 +107,28 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    if (self.segmentControl.selectedSegmentIndex == 0) {
-        return 1;
-    } else if (self.segmentControl.selectedSegmentIndex == 1) {
-        return self.categoryArray.count;
-    } else if (self.segmentControl.selectedSegmentIndex == 2) {
-        return self.locationArray.count;
-    }
-    return 1;
+    return self.imagesDictionary.allKeys.count;
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.imagesArray.count;
+    NSArray *sortedKeys = [self.imagesDictionary.allKeys sortedArrayUsingSelector:@selector(compare:)];
+    int numberOfItems = (int)[[self.imagesDictionary objectForKey:sortedKeys[section]] count];
+    return numberOfItems;
 }
 
 - (CollectionCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor whiteColor];
-    Photo *photo;
     
-    if (self.segmentControl.selectedSegmentIndex == 0) {
-        photo = self.imagesArray[indexPath.row];
-    } else if (self.segmentControl.selectedSegmentIndex == 1) {
-        photo = self.categoryArray[indexPath.row];
-    } else if (self.segmentControl.selectedSegmentIndex == 2) {
-        photo = self.locationArray[indexPath.row];
-    }
+    CollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    NSArray *sortedKeys = [self.imagesDictionary.allKeys sortedArrayUsingSelector:@selector(compare:)];
+    
+    NSArray *array = [self.imagesDictionary objectForKey:sortedKeys[indexPath.section]];
+    cell.backgroundColor = [UIColor whiteColor];
 
-    cell.imageView.image = photo.image;
+    UIImage *image = array[indexPath.row];
+    
+    cell.imageView.image = image;
+
     
     return cell;
 }
@@ -135,31 +140,14 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (IBAction)pressedSegment:(UISegmentedControl *)sender {
     if (sender.selectedSegmentIndex == 0) {
-        
+        self.imagesDictionary = self.allImagesDictionary;
+        [self.collectionView reloadData];
     } else if (sender.selectedSegmentIndex == 1) {
-        NSArray *categories = [self.imagesArray valueForKeyPath:@"@distinctUnionOfObjects.category"];
-        for (int i = 0; i <= categories.count - 1; i++) {
-            NSMutableArray *oneCategory = [[NSMutableArray alloc] init];
-            for (Photo *photo in self.imagesArray) {
-                if ([photo.category isEqualToString:categories[i]]) {
-                    [oneCategory addObject:photo.image];
-                }
-            }
-            [self.categoryDictionary setObject:oneCategory forKey:categories[i]];
-        }
-        
+        self.imagesDictionary = self.categoryDictionary;
+        [self.collectionView reloadData];
     } else if (sender.selectedSegmentIndex == 2) {
-        NSArray *locations = [self.imagesArray valueForKeyPath:@"@distinctUnionOfObjects.location"];
-        for (int i = 0; i <= locations.count - 1; i++) {
-            NSMutableArray *oneLocation = [[NSMutableArray alloc] init];
-            for (Photo *photo in self.imagesArray) {
-                if ([photo.location isEqualToString:locations[i]]) {
-                    [oneLocation addObject:photo];
-                }
-            }
-            [self.locationDictionary setObject:oneLocation forKey:locations[i]];
-        }
-        
+        self.imagesDictionary = self.locationDictionary;
+        [self.collectionView reloadData];
     }
 }
 
