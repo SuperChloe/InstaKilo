@@ -25,6 +25,7 @@
 		899EB21C1C5928640016F3F1 /* CollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 899EB21B1C5928640016F3F1 /* CollectionCell.m */; };
 		899EB21F1C592AD30016F3F1 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 899EB21E1C592AD30016F3F1 /* CollectionViewController.m */; };
 		899EB2221C5935080016F3F1 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 899EB2211C5935080016F3F1 /* Photo.m */; };
+		899EB2251C59BA3D0016F3F1 /* Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 899EB2241C59BA3D0016F3F1 /* Header.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,8 @@
 		899EB21E1C592AD30016F3F1 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
 		899EB2201C5935080016F3F1 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		899EB2211C5935080016F3F1 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		899EB2231C59BA3D0016F3F1 /* Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		899EB2241C59BA3D0016F3F1 /* Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Header.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +95,8 @@
 				899EB21E1C592AD30016F3F1 /* CollectionViewController.m */,
 				899EB2201C5935080016F3F1 /* Photo.h */,
 				899EB2211C5935080016F3F1 /* Photo.m */,
+				899EB2231C59BA3D0016F3F1 /* Header.h */,
+				899EB2241C59BA3D0016F3F1 /* Header.m */,
 				899EB21A1C5928640016F3F1 /* CollectionCell.h */,
 				899EB21B1C5928640016F3F1 /* CollectionCell.m */,
 				899EB1FA1C5922C10016F3F1 /* Assets.xcassets */,
@@ -212,6 +217,7 @@
 				899EB21C1C5928640016F3F1 /* CollectionCell.m in Sources */,
 				899EB1F31C5922C00016F3F1 /* AppDelegate.m in Sources */,
 				899EB2221C5935080016F3F1 /* Photo.m in Sources */,
+				899EB2251C59BA3D0016F3F1 /* Header.m in Sources */,
 				899EB1F01C5922C00016F3F1 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

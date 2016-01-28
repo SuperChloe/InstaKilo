@@ -32,10 +32,29 @@
                                 <size key="customSize" width="200" height="200"/>
                             </collectionViewCell>
                         </cells>
-                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Header" id="vHz-Lh-zAG">
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Header" id="vHz-Lh-zAG" customClass="Header">
                             <rect key="frame" x="0.0" y="64" width="600" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AoY-31-dpT">
+                                    <rect key="frame" x="120" y="4" width="361" height="21"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="21" id="Otq-q3-4fg"/>
+                                        <constraint firstAttribute="width" constant="361" id="sGZ-oC-ROg"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
                             <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstItem="AoY-31-dpT" firstAttribute="centerX" secondItem="vHz-Lh-zAG" secondAttribute="centerX" id="DoO-4r-61m"/>
+                                <constraint firstItem="AoY-31-dpT" firstAttribute="centerY" secondItem="vHz-Lh-zAG" secondAttribute="centerY" id="Hjx-wU-Ra7"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="headerLabel" destination="AoY-31-dpT" id="g95-zC-Ti7"/>
+                            </connections>
                         </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="mkY-52-8RI" id="gGs-h4-pdW"/>
@@ -59,6 +78,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="flowLayout" destination="Kr9-Qo-n1v" id="a97-QR-lW9"/>
+                        <outlet property="segmentControl" destination="B0a-ib-M1A" id="a6E-oB-2HS"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9h3-I9-gni" userLabel="First Responder" sceneMemberID="firstResponder"/>
