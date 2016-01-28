@@ -14,8 +14,8 @@
 
 @property (strong, nonatomic) NSMutableArray *imagesArray;
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *flowLayout;
-@property (strong, nonatomic) NSMutableDictionary *dictionary;
-
+@property (strong, nonatomic) NSMutableArray *locationArray;
+@property (strong, nonatomic) NSMutableArray *categoryArray;
 
 @end
 
@@ -33,7 +33,8 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView registerClass:[CollectionCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     self.imagesArray = [[NSMutableArray alloc] init];
-    self.dictionary = [[NSMutableDictionary alloc] init];
+    self.locationArray = [[NSMutableArray alloc] init];
+    self.categoryArray = [[NSMutableArray alloc] init];
     
     Photo *photo1 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1606.jpg"] category:@"On Back" andLocation:@"21 Widmer"];
     Photo *photo2 = [[Photo alloc] initWithImage:[UIImage imageNamed:@"IMG_1643.jpg"] category:@"Sitting" andLocation:@"21 Widmer"];
@@ -49,26 +50,30 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.imagesArray addObjectsFromArray:@[photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10]];
     
     NSArray *locations = [self.imagesArray valueForKeyPath:@"@distinctUnionOfObjects.location"];
-    NSMutableArray *locationArray = [[NSMutableArray alloc] init];
+    
     for (int i = 0; i <= locations.count - 1; i++) {
+        NSMutableArray *oneLocation = [[NSMutableArray alloc] init];
         for (Photo *photo in self.imagesArray) {
             if ([photo.location isEqualToString:locations[i]]) {
-                [locationArray addObject:photo];
+                [oneLocation addObject:photo];
             }
         }
-        NSLog(@"%@", locationArray);
+        [self.locationArray addObject:oneLocation];
     }
     
     NSArray *categories = [self.imagesArray valueForKeyPath:@"@distinctUnionOfObjects.category"];
-    NSMutableArray *categoryArray = [[NSMutableArray alloc] init];
     for (int i = 0; i <= categories.count - 1; i++) {
+        NSMutableArray *oneCategory = [[NSMutableArray alloc] init];
         for (Photo *photo in self.imagesArray) {
             if ([photo.category isEqualToString:categories[i]]) {
-                [categoryArray addObject:photo];
+                [oneCategory addObject:photo];
             }
         }
-        NSLog(@"%@", categoryArray);
+        [self.categoryArray addObject:oneCategory];
     }
+    
+    NSLog(@"Locations: %@", self.locationArray);
+    NSLog(@"Categorys: %@", self.categoryArray);
     
     [self.collectionView setDataSource:self];
     self.flowLayout.headerReferenceSize =  CGSizeMake(CGRectGetWidth(self.collectionView.frame), 50);
