@@ -76,7 +76,7 @@ static NSString * const reuseIdentifier = @"Cell";
     NSLog(@"Categorys: %@", self.categoryArray);
     
     [self.collectionView setDataSource:self];
-    self.flowLayout.headerReferenceSize =  CGSizeMake(CGRectGetWidth(self.collectionView.frame), 50);
+    self.flowLayout.headerReferenceSize =  CGSizeMake(CGRectGetWidth(self.collectionView.frame), 30);
     
 }
 
@@ -110,6 +110,16 @@ static NSString * const reuseIdentifier = @"Cell";
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     
     return [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Header" forIndexPath:indexPath];
+}
+
+- (IBAction)pressedSegment:(UISegmentedControl *)sender {
+    if (sender.selectedSegmentIndex == 0) {
+        NSLog(@"All photos");
+    } else if (sender.selectedSegmentIndex == 1) {
+        NSLog(@"Category");
+    } else if (sender.selectedSegmentIndex == 2) {
+        NSLog(@"Location");
+    }
 }
 
 #pragma mark <UICollectionViewDelegate>
