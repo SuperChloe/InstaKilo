@@ -15,9 +15,6 @@
 
 @property (strong, nonatomic) NSMutableArray *imagesArray;
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *flowLayout;
-@property (strong, nonatomic) NSMutableArray *locationArray;
-@property (strong, nonatomic) NSMutableArray *categoryArray;
-@property (strong, nonatomic) NSMutableArray *allImagesArray;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 @property (strong, nonatomic) NSMutableDictionary *categoryDictionary;
 @property (strong, nonatomic) NSMutableDictionary *locationDictionary;
@@ -40,8 +37,6 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView registerClass:[CollectionCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     self.imagesArray = [[NSMutableArray alloc] init];
-    self.locationArray = [[NSMutableArray alloc] init];
-    self.categoryArray = [[NSMutableArray alloc] init];
     self.categoryDictionary = [[NSMutableDictionary alloc] init];
     self.locationDictionary = [[NSMutableDictionary alloc] init];
     self.imagesDictionary = [[NSMutableDictionary alloc] init];
@@ -118,18 +113,11 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (CollectionCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     CollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     NSArray *sortedKeys = [self.imagesDictionary.allKeys sortedArrayUsingSelector:@selector(compare:)];
-    
     NSArray *array = [self.imagesDictionary objectForKey:sortedKeys[indexPath.section]];
-    cell.backgroundColor = [UIColor whiteColor];
-
-    UIImage *image = array[indexPath.row];
-    
-    cell.imageView.image = image;
-
-    
+    cell.backgroundColor = [UIColor colorWithRed:136.0/255.0 green:212.0/255.0 blue:152.0/255.0 alpha:1.0];
+    cell.imageView.image = array[indexPath.row];
     return cell;
 }
 

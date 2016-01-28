@@ -21,7 +21,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.imageView.frame = self.contentView.bounds;
+    self.imageView.frame = CGRectMake(5, 5, CGRectGetWidth(self.contentView.frame) - 10, CGRectGetHeight(self.contentView.frame) - 10);
 }
 
 @end
