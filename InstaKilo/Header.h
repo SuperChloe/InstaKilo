@@ -10,5 +10,4 @@
 
 @interface Header : UICollectionReusableView
 @property (weak, nonatomic) IBOutlet UILabel *headerLabel;
-
 @end

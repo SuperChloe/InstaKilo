@@ -134,8 +134,10 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    
-    return [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Header" forIndexPath:indexPath];
+    Header *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Header" forIndexPath:indexPath];
+    NSArray *sortedKeys = [self.imagesDictionary.allKeys sortedArrayUsingSelector:@selector(compare:)];
+    header.headerLabel.text = sortedKeys[indexPath.section];
+    return header;
 }
 
 - (IBAction)pressedSegment:(UISegmentedControl *)sender {
